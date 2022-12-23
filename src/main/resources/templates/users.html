@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <title>Список пользователей</title>
+</head>
+
+<body>
+<div class="p-3">
+<div class="container p-2">
+  <h1 class="text-center">Список пользователей</h1>
+  <br/>
+
+  <form th:method="get" th:action="@{/users/new}">
+    <button type="submit" class="btn btn-primary" >Создать нового пользователя</button>
+  </form>
+
+  <br/>
+</div>
+      <table class="table p-20" id="userTable">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Имя</th>
+          <th scope="col">Фамилия</th>
+          <th scope="col">Дата рождения</th>
+          <th scope="col">Логин</th>
+          <th scope="col">Адрес</th>
+          <th scope="col">Подробнее</th>
+          <th scope="col">Изменить</th>
+          <th scope="col">Удалить</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}" >
+          <td><span th:text="${user.getId()}">#</span></td>
+          <td><span th:text="${user.getFirstName()}"> Имя </span></td>
+          <td><span th:text="${user.getLastName()}"> Фамилия </span></td>
+          <td><span th:text="${#temporals.format(user.getBirthday(), 'dd-MM-yyyy')}"> Дата рождения </span></td>
+          <td><span th:text="${user.getLogin()}"> Логин </span></td>
+          <td><span th:text="${user.getAddress()}"> Адрес </span></td>
+          <td>
+            <form th:method="GET" th:action="@{/users/{id}(id=${user.getId()})}">
+              <button class="btn btn-light" type="submit">Подробнее</button>
+            </form>
+          </td>
+          <td>
+            <form th:method="GET" th:action="@{/users/edit/{id}(id=${user.getId()})}">
+              <button class="btn btn-light" type="submit">Изменить</button>
+            </form>
+          </td>
+          <td>
+            <form th:method="DELETE" th:action="@{/users/{id}(id=${user.getId()})}">
+              <button class="btn btn-secondary" type="submit">Удалить</button>
+            </form>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+</div>
+</div>
+</body>
+</html>
